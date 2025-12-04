@@ -16,7 +16,7 @@ cursor.execute("""CREATE TABLE patientLog (
 def add_patient(Patient):
     with PatientLog:
         cursor.execute("INSERT INTO patientLog VALUES (:patientID, :firstName, :lastName, :birthday, :email, :password)",
-                    {'patientID': null, 'firstName': Patient.firstName, 'lastName': Patient.lastName,
+                    {'patientID': None, 'firstName': Patient.firstName, 'lastName': Patient.lastName,
                         'birthday': Patient.birthday, 'email': Patient.email, 'password': Patient.password})    
 
 def print_log():
