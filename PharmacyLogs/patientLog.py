@@ -4,14 +4,14 @@ PatientLog = sqlite3.connect('PharmacyLogs/patientLog.db')
 
 cursor = PatientLog.cursor()
 
-cursor.execute("""CREATE TABLE patientLog (
-                patientID integer primary key,
-                firstName text,
-                lastName text,
-                birthday text,
-                email text,
-                password text
-                )""")
+# cursor.execute("""CREATE TABLE patientLog (
+#                 patientID integer primary key,
+#                 firstName text,
+#                 lastName text,
+#                 birthday text,
+#                 email text,
+#                 password text
+#                 )""")
 
 def add_patient(Patient):
     with PatientLog:
