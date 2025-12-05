@@ -1,8 +1,8 @@
 import validators
 
-class Account():
+class Verify():
     
-    def __init__(email, password):
+    def __init__(self, email, password):
         self.email = self.validateEmail(email)
         self.firstName = self.validateName(firstName)
         self.lastName = self.validateName(lastName)
@@ -32,19 +32,7 @@ class Account():
     def verifyLogin(log, email, password):
         verify = (password == getUserPassword(getUserID))
     
-    def editUser(log, email, firstName, lastName):
-        if self.validateName(firstName) == firstName:
-            self.firstName = firstName
-        else:
-            return "Please enter a valid first name."
-        if self.validateName(lastName) == lastName:
-            self.lastName = lastName
-        else:
-            return "Please enter a valid last name."
-        if self.validateEmail(email) == email:
-            self.email = email
-        else:
-            return "Please enter a valid email."
+    
     
 
 
