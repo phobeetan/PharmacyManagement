@@ -1,3 +1,7 @@
+from PharmacyLogs/patientLog.py import patientLog
+
+log = PatientLog()
+
 class Patient(Account, prescriptionLogAccess):
     
     def __init__(email, password):

@@ -1,28 +1,50 @@
 import sqlite3
+import bcrypt
+from logSet import Log
 
-PatientLog = sqlite3.connect('PharmacyLogs/patientLog.db')
+class patientLog(Log):
+    def __init__(self, DB_PATH):
+        self.DB_PATH = DB_PATH
+        super().__init__("PharmacyLogs/patientLog.db")
 
-cursor = PatientLog.cursor()
+    def get_connection(self):
+        return sqlite3.connect(self.DB_PATH)
 
-# cursor.execute("""CREATE TABLE patientLog (
-#                 patientID integer primary key,
-#                 firstName text,
-#                 lastName text,
-#                 birthday text,
-#                 email text,
-#                 password text
-#                 )""")
+    def create_table(self):
+        sql =   """
+                CREATE TABLE IF NOT EXISTS patientLog (
+                    patientID integer primary key,
+                    firstName text,
+                    lastName text,
+                    birthday text,
+                    email UNIQUE text,
+                    password text
+                )
+                """
+        
+        with self.get_connection() as conn:
+            conn.execute(sql)
 
-def add_patient(Patient):
-    with PatientLog:
-        cursor.execute("INSERT INTO patientLog VALUES (:patientID, :firstName, :lastName, :birthday, :email, :password)",
-                    {'patientID': None, 'firstName': Patient.firstName, 'lastName': Patient.lastName,
-                        'birthday': Patient.birthday, 'email': Patient.email, 'password': Patient.password})    
+    def insert(self, firstName, lastName, birthday, email, password):
+        password = password.encode()
+        salt = bcrypt.gensalt()
+        hashed_password = bcrypt.hashpw(password, salt)
 
-def print_log():
-    cursor.execute("SELECT  * FROM patientLog")
-    print(cursor.fetchall())
+        sql =   """
+                INSERT INTO patientLog (firstName, lastName, birthday, email, password)
+                VALUES (?, ?, ?, ?, ?)
+                """
+        
+        params = (firstName, lastName, birthday, email, hashed_password)
 
-PatientLog.commit()
+        with self.get_connection() as conn:
+            conn.execute(sql, params)
 
-PatientLog.close()
+    def fetchall(self, sql):
+        sql = "SELECT * FROM patientLog"
+
+        with self.get_connection() as conn:
+            return conn.execute(sql).fetchall()
+    
+    def getID(self, email):
+        return self.fetchone("email", (email,))
