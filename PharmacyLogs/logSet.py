@@ -37,10 +37,8 @@ class Log:
         with self.get_connection() as conn:
             return conn.execute(sql).fetchall()
 
-    def fetchone(self):
-        sql = "SELECT * FROM Log WHERE param = ?"
-        
-        param = ()
+    def fetchone(self, column, param=()):
+        sql = "SELECT * FROM Log WHERE " + column + " = ?"
 
         with self.get_connection() as conn:
             return conn.execute(sql, param).fetchone()
