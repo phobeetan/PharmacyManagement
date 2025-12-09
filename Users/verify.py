@@ -29,5 +29,32 @@ class Verify:
                 return False
         return True #returns true if name is valid
 
-    
+    def geUserID(self, email):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        cursor.execute(
+            f"SELECT {self.id_column} FROM {self.table_name} WHERE email = ?", (email,)
+        )
+        row = cursor.fetchone()
+        conn.close()
 
+        return row[0] if row else None
+    
+    def getUserPassword(self, user_id):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        cursor.execute(
+            f"SELECT password FROM {self.table_name} WHERE {self.id_column} = ?", (user_id,)
+        )
+        row = cursor.fetchone()
+        connection.close()
+
+        return row[0] if row else None
+
+    def verifyLogin(log, email, password):
+        user_id = getUserID(log, email = email)
+        if user_id is None:
+            return False
+
+        stored_pass = getUserPassword(user_id)
+        return stored_pass == password
