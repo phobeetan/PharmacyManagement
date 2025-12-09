@@ -1,0 +1,47 @@
+import sqlite3
+
+class Log:
+    def __init__(self, DB_PATH):
+        self.DB_PATH = DB_PATH
+        super().__init__("PharmacyLogs/Log.db")
+
+    def get_connection(self):
+        return sqlite3.connect(self.DB_PATH)
+
+    def create_table(self):
+        sql =   """
+                CREATE TABLE IF NOT EXISTS Log (
+                    patientID INTEGER PRIMARY KEY AUTOINCREMENT,
+                    firstName TEXT,
+                    lastName TEXT,
+                )
+                """
+        
+        with self.get_connection() as conn:
+            conn.execute(sql)
+
+    def insert(self):
+        sql =   """
+                INSERT INTO Log ()
+                VALUES ()
+                """
+        
+        params = ()
+
+        with self.get_connection() as conn:
+            conn.execute(sql, params)
+
+    def fetchall(self, sql):
+        sql = "SELECT * FROM Log"
+
+        with self.get_connection() as conn:
+            return conn.execute(sql).fetchall()
+
+    def fetchone(self):
+        sql = "SELECT * FROM Log WHERE param = ?"
+        
+        param = ()
+
+        with self.get_connection() as conn:
+            return conn.execute(sql, param).fetchone()
+        
