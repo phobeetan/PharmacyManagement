@@ -1,42 +1,33 @@
-import validators
+import sqlite3
 
-class Verify():
+class Verify:
     
-    def __init__(self, email, password):
-        self.email = self.validateEmail(email)
-        self.firstName = self.validateName(firstName)
-        self.lastName = self.validateName(lastName)
-        self.verifyLogin()
-        if verify == False: 
-            return "Your email or password is invaild."
-        self.editUser()
+    def __init__ (self, db_path, table_name, id_column)
+        self.db_path = db_path
+        self.table_name = table_name
+        self.id_column = id_column
     
-    def validateEmail(email):
-        if self.validators.email(email):
-            return email
-        else:
-            return "Please enter a valid email."
+    def get_connection(self):
+        return sqlite3.connect(self.db_path)
 
-    def validateName(name):
-        validate = False
-        chars = "@0123456789~``!@#$%^&*()_+=[]\{}|:<>?,./"
-        for x in self.name:
-            if x in chars:
-                validate = False
-        validate = True
-        if validate == True:
-            return name
-        else:
-            return "Please enter a valid name"
-
-    def verifyLogin(log, email, password):
-        verify = (password == getUserPassword(getUserID))
+    def validateEmail(self, email):
+        #check if email availible
+        connect = self.get_connection()
+        cur = connect.cursor()
+        cur.execute(
+            f"SELECT 1 FROM {self.table_name} WHERE email = ?".
+            (email,)
+        )
+        exists = cur.fetchone()
+        connect.close()
+        return not exists #returns true if email is availible
     
+    def validateName(self, name):
+        invalids = "@0123456789~`!#$%^&*()_+=[]\\|{};':<>?,./\""
+        for x in name:
+            if x in invalid_chars:
+                return False
+        return True #returns true if name is valid
+
     
-    
-
-
-
-
-
 
