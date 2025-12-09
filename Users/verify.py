@@ -1,4 +1,5 @@
 import sqlite3
+import bcrypt
 
 class Verify:
     
@@ -51,10 +52,16 @@ class Verify:
 
         return row[0] if row else None
 
-    def verifyLogin(log, email, password):
-        user_id = getUserID(log, email = email)
+    def verifyLogin(self, email, password):
+        user_id = self.getUserID(email)
         if user_id is None:
             return False
 
-        stored_pass = getUserPassword(user_id)
-        return stored_pass == password
+        stored_hash = self.getUserPassword(user_id)
+        if stored_hash is None:
+            return False
+        
+        if isinstance(stored_hash, str):
+            stored_hash = stored_hash.encode()
+        
+        return bcrypt.checkpass(password.encode(), stored_hash)
