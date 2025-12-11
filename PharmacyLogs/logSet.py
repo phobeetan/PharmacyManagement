@@ -3,7 +3,6 @@ import sqlite3
 class Log:
     def __init__(self, DB_PATH):
         self.DB_PATH = DB_PATH
-        super().__init__("PharmacyLogs/Log.db")
 
     def get_connection(self):
         return sqlite3.connect(self.DB_PATH)
