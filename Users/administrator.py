@@ -1,3 +1,4 @@
 import os
 
-class Administrator(Acc
+class Administrator(Account):
+    
