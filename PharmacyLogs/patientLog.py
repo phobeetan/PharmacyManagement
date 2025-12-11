@@ -3,12 +3,10 @@ import bcrypt
 from logSet import Log
 
 class patientLog(Log):
-    def __init__(self, DB_PATH):
-        self.DB_PATH = DB_PATH
-        super().__init__("PharmacyLogs/patientLog.db")
 
-    def get_connection(self):
-        return sqlite3.connect(self.DB_PATH)
+    #LOG MANAGEMENT
+    def __init__(self):
+        super().__init__("PharmacyLogs/patientLog.db")
 
     def create_table(self):
         sql =   """
@@ -22,13 +20,10 @@ class patientLog(Log):
                 )
                 """
         
-        with self.get_connection() as conn:
-            conn.execute(sql)
+        self.execute(sql)
 
     def insert(self, firstName, lastName, birthday, email, password):
-        password = password.encode()
-        salt = bcrypt.gensalt()
-        hashed_password = bcrypt.hashpw(password, salt)
+        hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
         sql =   """
                 INSERT INTO patientLog (firstName, lastName, birthday, email, password)
@@ -37,14 +32,8 @@ class patientLog(Log):
         
         params = (firstName, lastName, birthday, email, hashed_password)
 
-        with self.get_connection() as conn:
-            conn.execute(sql, params)
-
-    def fetchall(self, sql):
-        sql = "SELECT * FROM patientLog"
-
-        with self.get_connection() as conn:
-            return conn.execute(sql).fetchall()
+        self.execute(sql, params)
     
     def getID(self, email):
-        return self.fetchone("email", (email,))
+        row = self.fetchone("email", (email,))
+        return row[0] if row else None

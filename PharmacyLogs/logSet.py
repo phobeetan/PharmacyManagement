@@ -6,6 +6,10 @@ class Log:
 
     def get_connection(self):
         return sqlite3.connect(self.DB_PATH)
+    
+    def execute(self, sql, params=()): 
+        with self.get_connection() as conn:
+            conn.execute(sql, params)
 
     def create_table(self):
         sql =   """
@@ -34,11 +38,12 @@ class Log:
         sql = "SELECT * FROM Log"
 
         with self.get_connection() as conn:
-            return conn.execute(sql).fetchall()
+            cursor = conn.cursor()
+            return cursor.execute(sql).fetchall()
 
     def fetchone(self, column, param=()):
         sql = "SELECT * FROM Log WHERE " + column + " = ?"
 
         with self.get_connection() as conn:
-            return conn.execute(sql, param).fetchone()
-        
+            cursor = conn.cursor()
+            return cursor.execute(sql, param).fetchone()
