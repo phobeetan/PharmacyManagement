@@ -16,7 +16,7 @@ class Log:
                 CREATE TABLE IF NOT EXISTS Log (
                     patientID INTEGER PRIMARY KEY AUTOINCREMENT,
                     firstName TEXT,
-                    lastName TEXT,
+                    lastName TEXT
                 )
                 """
         

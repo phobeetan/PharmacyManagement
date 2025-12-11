@@ -15,7 +15,7 @@ class patientLog(Log):
                     firstName text,
                     lastName text,
                     birthday text,
-                    email UNIQUE text,
+                    email text UNIQUE,
                     password text
                 )
                 """
@@ -33,7 +33,3 @@ class patientLog(Log):
         params = (firstName, lastName, birthday, email, hashed_password)
 
         self.execute(sql, params)
-    
-    def getID(self, email):
-        row = self.fetchone("email", (email,))
-        return row[0] if row else None
