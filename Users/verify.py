@@ -4,9 +4,8 @@ from PharmacyLogs.logSet import Log
 
 class Verify(Log):
     
-    def __init__ (self, DB_PATH, logName):
+    def __init__ (self, DB_PATH):
         super().__init__(DB_PATH)
-        self.log = logName
 
     def validateEmail(self, email):
         return self.fetchone("email", (email,)) is None
