@@ -1,18 +1,23 @@
-from PharmacyLogs/patientLog.py import patientLog
+from verify import Verify
+from PharmacyLogs.patientLog import patientLog
 
-log = PatientLog()
+log = patientLog()
 
-class Patient(Account, prescriptionLogAccess):
-    
-    def __init__(email, password):
-        patientEmail = self.validateEmail(email)
-        patientID = self.assignID()
-        editUser()
-    def assignID():
-        patientID = rand(1,10000)
-        if patientID in patientLog.db:
+class Patient(Verify):
+    def __init__(self, email, firstName, lastName, birthday, password):
+        self.log = log
+        self.verify = Verify(log.DB_PATH)
+        self.email = email
 
+        # Validate
+        if not self.verify.validateEmail(email):
+            raise ValueError("Email Already Exists")
+        if not self.verify.validateName(firstName) or not self.verify.validateName(lastName):
+            raise ValueError("Invalid Characters in Name")
         
-    def verifyLogin(patientLog, email, password):
-        super.verifyLogin(log, email, password)
+        # Register
+        self.log.insert(email, firstName, lastName, birthday, password)
+    
+    def verifyLogin(self, email, password):
+        return self.verify.validateEmail(email, password)
 
