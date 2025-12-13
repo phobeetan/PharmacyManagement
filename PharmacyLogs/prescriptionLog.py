@@ -1,4 +1,5 @@
 from logSet import Log
+from datetime import datetime
 
 class prescriptionLog(Log):
 
@@ -30,13 +31,15 @@ class prescriptionLog(Log):
         self.execute(sql, params)
 
     def getPastMedications(self, patientID):
+        today = datetime.today().date().isoformat()
+
         sql =   """
                 SELECT *
-                WHERE patientID = ?, endDate
                 FROM prescriptionLog
+                WHERE patientID = ?, endDate <= ?
                 """
 
-        params = (patientID, )
+        params = (patientID, today)
 
         with self.get_connection() as conn:
             cursor = conn.cursor()
