@@ -1,4 +1,5 @@
 from logSet import Log
+from datetime import datetime, timedelta
 
 class pickUpLog(Log):
 
@@ -28,13 +29,27 @@ class pickUpLog(Log):
 
         self.execute(sql, params)
 
-    def markIsPickedUp(self, prescriptionID):
+    def markIsPickedUp(self, prescriptionID, pickUpDate):
+        #get bottle id from prescriptoinlog, get daysUse from inventory, add to current date.
+        sql = "SELECT bottleID FROM prescriptionLog WHERE prescriptionID = ?"
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            bottleID = cursor.execute(sql, (prescriptionID, )).fetchone()[0]
+
+        sql = "SELECT daysUse FROM inventoryLog WHERE bottleID = ?"
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            daysUse = cursor.execute(sql, (bottleID, )).fetchone()[0]
+
+        pickUpDate = datetime.fromisoformat(pickUpDate)
+        endDate = pickUpDate + timedelta(days=daysUse)
+
         sql =   """
                 UPDATE pickUpLog
-                SET isPickedUp = true
+                SET isPickedUp = 1, pickUpDate = ?, endDate = ?
                 WHERE prescriptionID = ?
                 """
 
-        params = (prescriptionID, )
+        params = (pickUpDate.isoformat(), endDate.isoformat(), prescriptionID)
 
         self.execute(sql, params)
