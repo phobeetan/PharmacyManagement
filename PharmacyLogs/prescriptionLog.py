@@ -12,7 +12,7 @@ class prescriptionLog(Log):
                     prescriptionID integer primary key,
                     bottleID text,
                     patientID text,
-                    needsRefill boolean,
+                    needsRefill integer default 0,
                 )
                 """
 

@@ -11,20 +11,20 @@ class pickUpLog(Log):
                 CREATE TABLE IF NOT EXISTS pickUpLog (
                     prescriptionID integer primary key,
                     pickUpDate text,
-                    isPickedUp boolean,
-                    endDate integer,
+                    isPickedUp integer default 0,
+                    endDate integer
                 )
                 """
 
         self.execute(sql)
 
-    def insert(self, prescriptionID, pickUpDate, isPickedUp, endDate):
+    def insert(self, prescriptionID, pickUpDate, endDate):
         sql =   """
-                INSERT INTO pickUpLog (prescriptionID, pickUpDate, isPickedUp, endDate)
+                INSERT INTO pickUpLog (prescriptionID, pickUpDate, endDate)
                 VALUES (?, ?, ?)
                 """
 
-        params = (prescriptionID, pickUpDate, isPickedUp, endDate)
+        params = (prescriptionID, pickUpDate, endDate)
 
         self.execute(sql, params)
 
