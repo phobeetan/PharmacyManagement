@@ -1,4 +1,3 @@
-import bcrypt
 from logSet import Log
 
 class inventoryLog(Log):
