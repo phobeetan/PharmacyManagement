@@ -5,7 +5,7 @@ log = pharmacistLog()
 
 
 class Pharmacist(Verify):
-    def __init__(self, email, firstName, lastName, password):
+    def __init__(self, pharmacistID, email, firstName, lastName, password):
         self.log = log
         self.verify = Verify(log.DB_PATH)
         self.email = email
@@ -17,4 +17,4 @@ class Pharmacist(Verify):
             raise ValueError("Invalid Characters in Name")
 
         # Register
-        self.log.insert(email, firstName, lastName, password)
+        self.log.insert(pharmacistID, email, firstName, lastName, password)

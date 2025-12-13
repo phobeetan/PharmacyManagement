@@ -10,7 +10,7 @@ class pharmacistLog(Log):
     def create_table(self):
         sql =   """
                 CREATE TABLE IF NOT EXISTS pharmacistLog (
-                    patientID integer primary key,
+                    pharmacistID integer primary key,
                     firstName text,
                     lastName text,
                     email text UNIQUE,
@@ -20,14 +20,14 @@ class pharmacistLog(Log):
 
         self.execute(sql)
 
-    def insert(self, firstName, lastName, email, password):
+    def insert(self, pharmacistID, firstName, lastName, email, password):
         hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
         sql =   """
-                INSERT INTO pharmacistLog (firstName, lastName, email, password)
+                INSERT INTO pharmacistLog (pharmacistID, firstName, lastName, email, password)
                 VALUES (?, ?, ?, ?)
                 """
 
-        params = (firstName, lastName, email, hashed_password)
+        params = (pharmacistID, firstName, lastName, email, hashed_password)
 
         self.execute(sql, params)
