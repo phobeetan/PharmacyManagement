@@ -1,45 +1,34 @@
 import bcrypt
 from logSet import Log
 
-
 class inventoryLog(Log):
 
-    # LOG MANAGEMENT
+    #LOG MANAGEMENT
     def __init__(self):
         super().__init__("PharmacyLogs/inventoryLog.db")
 
     def create_table(self):
-        sql = """ \
-              CREATE TABLE IF NOT EXISTS inventoryLog \
-              ( \
-                  patientID \
-                  integer \
-                  primary \
-                  key, \
-                  firstName \
-                  text, \
-                  lastName \
-                  text, \
-                  birthday \
-                  text, \
-                  email \
-                  text \
-                  UNIQUE, \
-                  password \
-                  text \
-              )
+        sql =   """
+                CREATE TABLE IF NOT EXISTS inventoryLog (
+                    bottleID integer primary key,
+                    medicalName text,
+                    commonName text,
+                    doseAmount integer,
+                    bottleAmount integer,
+                    doseUnits text,
+                    instructions text,
+                    expirationDate text
+                )
                 """
 
         self.execute(sql)
 
-    def insert(self, firstName, lastName, birthday, email, password):
-        hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-
-        sql = """ \
-              INSERT INTO inventoryLog (firstName, lastName, birthday, email, password) \
-              VALUES (?, ?, ?, ?, ?)
+    def insert(self, medicalName, commonName, doseAmount, bottleAmount, doseUnits, instructions, expirationDate):
+        sql =   """
+                INSERT INTO inventoryLog (medicalName, commonName, doseAmount, bottleAmount, doseUnits, instructions, expirationDate)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
                 """
 
-        params = (firstName, lastName, birthday, email, hashed_password)
+        params = (medicalName, commonName, doseAmount, bottleAmount, doseUnits, instructions, expirationDate)
 
         self.execute(sql, params)
