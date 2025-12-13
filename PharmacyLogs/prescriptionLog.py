@@ -13,6 +13,7 @@ class prescriptionLog(Log):
                     bottleID text,
                     patientID text,
                     needsRefill integer default 0,
+                    endDate text default NULL
                 )
                 """
 
@@ -27,3 +28,16 @@ class prescriptionLog(Log):
         params = (bottleID, patientID, needsRefill)
 
         self.execute(sql, params)
+
+    def getPastMedications(self, patientID):
+        sql =   """
+                SELECT *
+                WHERE patientID = ?, endDate
+                FROM prescriptionLog
+                """
+
+        params = (patientID, )
+
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            return cursor.execute(sql, params).fetchall()

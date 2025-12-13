@@ -11,26 +11,23 @@ class pickUpLog(Log):
         sql =   """
                 CREATE TABLE IF NOT EXISTS pickUpLog (
                     prescriptionID integer primary key,
-                    pickUpDate text,
-                    isPickedUp integer default 0,
-                    endDate integer
+                    pickUpDate text default NULL
                 )
                 """
 
         self.execute(sql)
 
-    def insert(self, prescriptionID, pickUpDate, endDate):
+    def insert(self, prescriptionID):
         sql =   """
-                INSERT INTO pickUpLog (prescriptionID, pickUpDate, endDate)
-                VALUES (?, ?, ?)
+                INSERT INTO pickUpLog (prescriptionID)
+                VALUES (?)
                 """
 
-        params = (prescriptionID, pickUpDate, endDate)
+        params = (prescriptionID, )
 
         self.execute(sql, params)
 
-    def markIsPickedUp(self, prescriptionID, pickUpDate):
-        #get bottle id from prescriptoinlog, get daysUse from inventory, add to current date.
+    def markPickedUp(self, prescriptionID, pickUpDate):
         sql = "SELECT bottleID FROM prescriptionLog WHERE prescriptionID = ?"
         with self.get_connection() as conn:
             cursor = conn.cursor()
@@ -44,12 +41,8 @@ class pickUpLog(Log):
         pickUpDate = datetime.fromisoformat(pickUpDate)
         endDate = pickUpDate + timedelta(days=daysUse)
 
-        sql =   """
-                UPDATE pickUpLog
-                SET isPickedUp = 1, pickUpDate = ?, endDate = ?
-                WHERE prescriptionID = ?
-                """
+        sql =   "UPDATE prescriptionLog SET endDate = ? WHERE prescriptionID = ?"
+        self.execute(sql, (endDate.isoformat(), prescriptionID))
 
-        params = (pickUpDate.isoformat(), endDate.isoformat(), prescriptionID)
-
-        self.execute(sql, params)
+        sql = "UPDATE pickUpLog SET pickUpDate = ? WHERE prescriptionID = ?"
+        self.execute(sql, (pickUpDate.isoformat(), prescriptionID))
