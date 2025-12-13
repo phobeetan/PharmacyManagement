@@ -12,9 +12,9 @@
 - Databases: SQLite
 
 ## To Be Added
-[ ] proper comments
-[ ] test cases
-[ ] ui files
-[ ] connect ui files
-[ ] add exception handling
-[ ] data persistance
+- [ ] proper comments
+- [ ] test cases
+- [ ] ui files
+- [ ] connect ui files
+- [ ] add exception handling
+- [ ] data persistance
