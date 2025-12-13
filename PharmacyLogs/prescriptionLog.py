@@ -28,7 +28,10 @@ class prescriptionLog(Log):
 
         params = (bottleID, patientID, needsRefill)
 
-        self.execute(sql, params)
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(sql, params)
+            return cursor.lastrowid
 
     def getPastMedications(self, patientID):
         today = datetime.today().date().isoformat()
