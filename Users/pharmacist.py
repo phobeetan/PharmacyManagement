@@ -26,20 +26,10 @@ class Pharmacist(Verify):
         self.global_pharmacist.insert(pharmacistID, email, firstName, lastName, password)
 
     def addInventory(self, medicalName, commonName, doseAmount, bottleAmount, daysUse, doseUnits, instructions, expirationDate):
-        self.inventory.insert(medicalName, commonName, doseAmount, bottleAmount, daysUse, doseUnits, instructions, expirationDate)
-
-        with self.get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(sql, params)
-            return cursor.lastrowid
-
-    def fetchone(self, column, param=()):
-        sql = "SELECT * FROM Log WHERE " + column + " = ?"
-
-        with self.get_connection() as conn:
-            cursor = conn.cursor()
-            return cursor.execute(sql, param).fetchone()
+        bottleID = self.inventory.insert(medicalName, commonName, doseAmount, bottleAmount, daysUse, doseUnits, instructions, expirationDate)
+        print(bottleID)
 
     def assignMedicine(self, bottleID, patientID, needsRefill=0):
-        self.prescription.insert(bottleID, patientID, needsRefill)
+        prescriptionID = self.prescription.insert(bottleID, patientID, needsRefill)
+        print(prescriptionID)
 
