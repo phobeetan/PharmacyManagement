@@ -14,6 +14,7 @@ class inventoryLog(Log):
                     commonName text,
                     doseAmount integer,
                     bottleAmount integer,
+                    daysUse integer,
                     doseUnits text,
                     instructions text,
                     expirationDate text
@@ -22,12 +23,12 @@ class inventoryLog(Log):
 
         self.execute(sql)
 
-    def insert(self, medicalName, commonName, doseAmount, bottleAmount, doseUnits, instructions, expirationDate):
+    def insert(self, medicalName, commonName, doseAmount, bottleAmount, daysUse, doseUnits, instructions, expirationDate):
         sql =   """
-                INSERT INTO inventoryLog (medicalName, commonName, doseAmount, bottleAmount, doseUnits, instructions, expirationDate)
+                INSERT INTO inventoryLog (medicalName, commonName, doseAmount, bottleAmount, daysUse, doseUnits, instructions, expirationDate)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
                 """
 
-        params = (medicalName, commonName, doseAmount, bottleAmount, doseUnits, instructions, expirationDate)
+        params = (medicalName, commonName, doseAmount, bottleAmount, daysUse, doseUnits, instructions, expirationDate)
 
         self.execute(sql, params)
