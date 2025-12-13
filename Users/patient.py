@@ -17,7 +17,3 @@ class Patient(Verify):
         
         # Register
         self.log.insert(email, firstName, lastName, birthday, password)
-    
-    def verifyLogin(self, email, password):
-        return self.verify.validateEmail(email, password)
-

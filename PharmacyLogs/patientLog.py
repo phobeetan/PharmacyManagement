@@ -1,4 +1,3 @@
-import sqlite3
 import bcrypt
 from logSet import Log
 
