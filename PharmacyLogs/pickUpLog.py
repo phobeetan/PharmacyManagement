@@ -27,3 +27,14 @@ class pickUpLog(Log):
         params = (prescriptionID, pickUpDate, isPickedUp, endDate)
 
         self.execute(sql, params)
+
+    def markIsPickedUp(self, prescriptionID):
+        sql =   """
+                UPDATE pickUpLog
+                SET isPickedUp = true
+                WHERE prescriptionID = ?
+                """
+
+        params = (prescriptionID, )
+
+        self.execute(sql, params)
