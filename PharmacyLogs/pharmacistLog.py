@@ -1,21 +1,33 @@
-import sqlite3
+import bcrypt
+from logSet import Log
 
-PharmacistLog = sqlite3.connect('PharmacyLogs/pharmacistLog.db')
+class pharmacistLog(Log):
 
-cursor = PharmacistLog.cursor()
+    #LOG MANAGEMENT
+    def __init__(self):
+        super().__init__("PharmacyLogs/pharmacistLog.db")
 
-cursor.execute("""CREATE TABLE pharmacistLog (
-                pharmacistID integer primary key,
-                firstName text,
-                lastName text,
-                email text,
-                password text
-                )""")
+    def create_table(self):
+        sql =   """
+                CREATE TABLE IF NOT EXISTS pharmacistLog (
+                    patientID integer primary key,
+                    firstName text,
+                    lastName text,
+                    email text UNIQUE,
+                    password text
+                )
+                """
 
-def print_log():
-    cursor.execute("SELECT  * FROM pharmacistLog")
-    print(cursor.fetchall())
+        self.execute(sql)
 
-PharmacistLog.commit()
+    def insert(self, firstName, lastName, email, password):
+        hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
-PharmacistLog.close()
+        sql =   """
+                INSERT INTO pharmacistLog (firstName, lastName, email, password)
+                VALUES (?, ?, ?, ?)
+                """
+
+        params = (firstName, lastName, email, hashed_password)
+
+        self.execute(sql, params)
