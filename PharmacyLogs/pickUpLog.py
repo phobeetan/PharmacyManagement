@@ -18,12 +18,12 @@ class pickUpLog(Log):
 
         self.execute(sql)
 
-    def insert(self, pickUpDate, isPickedUp, endDate):
+    def insert(self, prescriptionID, pickUpDate, isPickedUp, endDate):
         sql =   """
-                INSERT INTO pickUpLog (pickUpDate, isPickedUp, endDate)
+                INSERT INTO pickUpLog (prescriptionID, pickUpDate, isPickedUp, endDate)
                 VALUES (?, ?, ?)
                 """
 
-        params = (pickUpDate, isPickedUp, endDate)
+        params = (prescriptionID, pickUpDate, isPickedUp, endDate)
 
         self.execute(sql, params)
