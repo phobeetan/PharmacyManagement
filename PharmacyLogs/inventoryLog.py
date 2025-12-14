@@ -31,4 +31,7 @@ class inventoryLog(Log):
 
         params = (medicalName, commonName, doseAmount, bottleAmount, daysUse, doseUnits, instructions, expirationDate)
 
-        with self.get_connection(
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(sql, params)
+            return cursor.lastrowid

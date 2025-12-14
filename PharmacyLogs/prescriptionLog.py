@@ -39,4 +39,26 @@ class prescriptionLog(Log):
         sql =   """
                 SELECT *
                 FROM prescriptionLog
-                WHERE patientI
+                WHERE patientID = ? AND endDate <= ?
+                """
+
+        params = (patientID, today)
+
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            return cursor.execute(sql, params).fetchall()
+
+    def getCurrentMedications(self, patientID):
+        today = datetime.today().date().isoformat()
+
+        sql =   """
+                SELECT *
+                FROM prescriptionLog
+                WHERE patientID = ? AND (endDate > ? OR endDate IS NULL)
+                """
+
+        params = (patientID, today)
+
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            return cursor.execute(sql, params).fetchall()
