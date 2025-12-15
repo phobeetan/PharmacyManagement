@@ -10,7 +10,7 @@ class Administrator(Verify):
     def create_pharmacist(self, pharmacistID, email, firstName, lastName, password):
         pharmacist = Pharmacist(pharmacistID, email, firstName, lastName, password)
     def import_data(self, csv_paths: list[str]):
-        csv_to_db = {
+        csv_to_db = {git
         "pharmacistLog.csv" : "pharmacistLog.db",
         "patientLog.csv" : "patientLog.db",
         "pickUpLog.csv" : "pickUpLog.db",
