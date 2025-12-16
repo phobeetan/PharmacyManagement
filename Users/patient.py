@@ -6,7 +6,7 @@ log = patientLog()
 class Patient(Verify):
     def __init__(self, email, firstName, lastName, birthday, password):
         self.log = log
-        self.verify = Verify(log.DB_PATH)
+        self.verify = Verify(log)
         self.email = email
 
         # Validate

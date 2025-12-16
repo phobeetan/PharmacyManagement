@@ -1,5 +1,5 @@
 import bcrypt
-from logSet import Log
+from PharmacyLogs import Log
 
 class patientLog(Log):
 
@@ -14,21 +14,21 @@ class patientLog(Log):
                     firstName text,
                     lastName text,
                     birthday text,
+                    password text,
                     email text UNIQUE,
-                    password text
                 )
                 """
         
         self.execute(sql)
 
-    def insert(self, firstName, lastName, birthday, email, password):
+    def insert(self, firstName, lastName, birthday, password, email):
         hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
         sql =   """
-                INSERT INTO patientLog (firstName, lastName, birthday, email, password)
+                INSERT INTO patientLog (firstName, lastName, birthday, password, email)
                 VALUES (?, ?, ?, ?, ?)
                 """
         
-        params = (firstName, lastName, birthday, email, hashed_password)
+        params = (firstName, lastName, birthday, hashed_password, email)
 
         self.execute(sql, params)

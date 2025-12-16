@@ -1,11 +1,12 @@
 import bcrypt
-from logSet import Log
+from PharmacyLogs import Log
 
 class pharmacistLog(Log):
 
     #LOG MANAGEMENT
     def __init__(self):
-        super().__init__("PharmacyLogs/pharmacistLog.db")
+        self.DB_PATH = "PharmacyLogs/pharmacistLog.db"
+        super().__init__(self.DB_PATH)
 
     def create_table(self):
         sql =   """
@@ -25,7 +26,7 @@ class pharmacistLog(Log):
 
         sql =   """
                 INSERT INTO pharmacistLog (pharmacistID, firstName, lastName, email, password)
-                VALUES (?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?)
                 """
 
         params = (pharmacistID, firstName, lastName, email, hashed_password)

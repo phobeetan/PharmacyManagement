@@ -14,7 +14,7 @@ class Pharmacist(Verify):
     pickUp = global_pickUp
 
     def __init__(self, pharmacistID, email, firstName, lastName, password):
-        self.verify = Verify(self.pharmacist.DB_PATH)
+        self.verify = Verify(self.pharmacist)
         self.email = email
 
         # Validate

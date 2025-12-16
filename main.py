@@ -1,13 +1,13 @@
 import sys
-from PySide6.QtWidgets import QApplication, QWidget
-from gui.loginWindow import LoginWindow
+from PyQt6.QtWidgets import QApplication
+from gui.loginWindow import PharmacistLoginWindow
 
 def main():
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
 
     # login window
-    window = LoginWindow()
+    window = PharmacistLoginWindow()
     window.show()
 
     # starting the application

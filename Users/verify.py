@@ -3,9 +3,10 @@ import bcrypt
 from PharmacyLogs.logSet import Log
 
 class Verify(Log):
-    
-    def __init__ (self, DB_PATH):
-        super().__init__(DB_PATH)
+    def __init__(self, log, table_name):
+        self.log = log
+        self.table = table_name
+        self.log.create_table()
 
     def validateEmail(self, email):
         return self.fetchone("email", (email,)) is None
@@ -16,26 +17,25 @@ class Verify(Log):
             if x in invalids:
                 return False
         return True #returns true if name is valid
-    
-    def getUserID(self, email):
-        row = self.fetchone("email", (email,))
-        return row[0] if row else None
-    
+
+    def getUserByEmail(self, email):
+        sql = f"SELECT * FROM {self.table} WHERE email = ?"
+        with self.log.get_connection() as conn:
+            cursor = conn.cursor()
+            return cursor.execute(sql, (email,)).fetchone()
+
     def getUserPassword(self, email):
-        row = self.fetchone("email", (email,))
-        return row[5] if row else None
+        row = self.getUserByEmail(email)
+        return row[4] if row else None
 
     def verifyLogin(self, email, password):
         
-        user_id = self.getUserID(email)
+        row = self.getUserByEmail(email)
 
-        if user_id is None:
+        if not row:
             return False
 
-        stored_hash = self.getUserPassword(user_id)
-
-        if stored_hash is None:
-            return False
+        stored_hash = self.getUserPassword(email)
         
         if isinstance(stored_hash, str):
             stored_hash = stored_hash.encode()
