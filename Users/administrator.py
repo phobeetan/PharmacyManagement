@@ -10,7 +10,7 @@ class Administrator(Verify):
     def create_pharmacist(self, pharmacistID, email, firstName, lastName, password):
         pharmacist = Pharmacist(pharmacistID, email, firstName, lastName, password)
     def import_data(self, csv_paths: list[str]):
-        csv_to_db = {git
+        csv_to_db = {
         "pharmacistLog.csv" : "pharmacistLog.db",
         "patientLog.csv" : "patientLog.db",
         "pickUpLog.csv" : "pickUpLog.db",
@@ -69,8 +69,4 @@ class Administrator(Verify):
             with open(csv_path, 'w', newline='', encoding = "utf-8") as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow()
-
-    )
-
-
 
