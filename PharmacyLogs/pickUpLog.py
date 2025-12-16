@@ -1,4 +1,4 @@
-from logSet import Log
+from PharmacyLogs import Log
 from datetime import datetime, timedelta
 
 class pickUpLog(Log):

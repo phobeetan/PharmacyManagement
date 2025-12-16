@@ -1,4 +1,4 @@
-from logSet import Log
+from PharmacyLogs import Log
 
 class inventoryLog(Log):
 
