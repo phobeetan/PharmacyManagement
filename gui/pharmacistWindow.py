@@ -15,7 +15,7 @@ class PharmacistWindow(QMainWindow):
 
         self.ui.inventorySubmit.clicked.connect(self.addMedicineToInventory)
         self.ui.assignSubmit.clicked.connect(self.assignPrescription)
-        self.ui.updateSubmit.clicked.connect(self.updatePickUpStatus)
+        self.ui.updateSubmit.clicked.connect(self.updatePickUp)
 
     def addMedicineToInventory(self):
         medicalName = self.ui.medicalNameEdit.text().strip()
