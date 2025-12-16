@@ -36,12 +36,12 @@ class Ui_MainWindow(object):
         self.splitter = QSplitter(self.gridLayoutWidget)
         self.splitter.setObjectName(u"splitter")
         self.splitter.setOrientation(Qt.Orientation.Horizontal)
-        self.pushButton = QPushButton(self.splitter)
-        self.pushButton.setObjectName(u"pushButton")
-        self.splitter.addWidget(self.pushButton)
-        self.pushButton_2 = QPushButton(self.splitter)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-        self.splitter.addWidget(self.pushButton_2)
+        self.loginButton = QPushButton(self.splitter)
+        self.loginButton.setObjectName(u"loginButton")
+        self.splitter.addWidget(self.loginButton)
+        self.registerButton = QPushButton(self.splitter)
+        self.registerButton.setObjectName(u"registerButton")
+        self.splitter.addWidget(self.registerButton)
 
         self.gridLayout.addWidget(self.splitter, 2, 0, 1, 1)
 
