@@ -15,7 +15,7 @@ class patientLog(Log):
                     lastName text,
                     birthday text,
                     password text,
-                    email text UNIQUE,
+                    email text UNIQUE
                 )
                 """
         
